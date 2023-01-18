@@ -37,6 +37,9 @@ def mySwitchOnHandler(evt) {
     // Gives me the string "Josh Bedroom Lights"
     log.debug evt.value
     // Give me the string of "on"
+    log.debug lightDevices
+    // This gives me a comma separated list of device names
+    // i.e. [Living Room Ceiling Fan, Living Room Lights, Dining Room Lights, Bedroom Josh Lights, Bedroom Office]
     
     // NOW WHAT??
     // How do I query the status of the other four devices from here?
