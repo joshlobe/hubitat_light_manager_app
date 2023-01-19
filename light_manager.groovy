@@ -12,9 +12,6 @@ preferences {
     page(name: "mainPage", title: "Light Manager", install: true, uninstall: true) {
         section {
             input name: "lightDevices", type: "capability.switch", title: "When these lights are switched...", multiple: true
-            // I've set my input.  I know I can "listen" for changes to any devices selected from front end via subscribe()
-            // I have 5 switches I'd like to monitor
-            // At this point, I do not know the status of any of the five devices
         }
     }
 }
@@ -26,23 +23,24 @@ def installed() {
 def updated() {
     log.trace "updated()"
     unsubscribe()
-    subscribe( lightDevices, "switch.on", "mySwitchOnHandler", [filterEvents: false] )
-    // I've subscribed to the input above
+    subscribe( lightDevices, "switch", "lightManagerSwitchHandler", [filterEvents: false] )
 }
 
-def mySwitchOnHandler(evt) {
-    log.debug evt
-    // This logs a generic object
-    log.debug evt.device
-    // Gives me the string "Josh Bedroom Lights"
-    log.debug evt.value
-    // Give me the string of "on"
-    log.debug lightDevices
-    // This gives me a comma separated list of device names
-    // i.e. [Living Room Ceiling Fan, Living Room Lights, Dining Room Lights, Bedroom Josh Lights, Bedroom Office]
+def lightManagerSwitchHandler(evt) {
+    //log.trace evt.device
+    //log.trace evt.value
+    //log.debug evt
+    //log.debug "Light Devices..."
+    //log.debug lightDevices
+    //log.debug evt.properties
     
-    // NOW WHAT??
-    // How do I query the status of the other four devices from here?
+    inner = ""
+    lightDevices.each {
+        inner += "<div>${it.label} (${it.currentValue('switch')})</div>"
+    }
+    html = "<div>"
+    html += inner
+    html += "</div>"
 }
 
 def uninstalled() {}
